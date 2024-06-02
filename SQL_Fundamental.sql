@@ -147,6 +147,49 @@ CHANGE COLUMN number_of_complains number_of_complaints INT DEFAULT 0;
 INSERT INTO CUSTOMERS (first_name,last_name,gender,email_adress)
 VALUES('Ariyaa','Zrisha','F','Ariyaa.Zrisha@gmail.com');
 
+##Exercise##
+
+CREATE TABLE COMPANIES 
+(
+company_id VARCHAR(255),
+company_name VARCHAR(255),
+headquarters_phone_number VARCHAR(255),
+PRIMARY KEY (company_id)
+);
+
+ALTER TABLE COMPANIES
+ADD UNIQUE KEY (headquarters_phone_number),
+CHANGE COLUMN company_name company_name VARCHAR(255) DEFAULT 'X';
+
+INSERT INTO COMPANIES (company_id,headquarters_phone_number)
+VALUES('MSB01','01712345678');
+
+SELECT * FROM COMPANIES; 
+DROP TABLE companies;
+
+##NOT NULL##
+
+CREATE TABLE COMPANIES 
+(
+company_id INT AUTO_INCREMENT,
+company_name VARCHAR(255),
+headquarters_phone_number VARCHAR(255) not null,
+PRIMARY KEY (company_id)
+);
+
+ALTER TABLE companies
+MODIFY company_name VARCHAR(255) NULL;  ##Will go to previous state;
+
+ALTER TABLE companies
+MODIFY company_name VARCHAR(255) NOT NULL;
+
+
+
+
+
+
+
+
 
 
 
