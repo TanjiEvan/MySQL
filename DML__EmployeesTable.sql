@@ -158,7 +158,126 @@ HAVING COUNT(from_date) > 1
 ORDER BY emp_no;
 
 													### LIMIT ###
-                                                    
+ SELECT * FROM salaries ORDER BY salary DESC LIMIT 10;  ##TOP 10 Salary##                                                 
+SELECT * FROM dept_emp;
+SELECT 
+    emp_no
+FROM
+    dept_emp
+WHERE
+    from_date > 2000 - 01 - 01
+GROUP BY emp_no
+HAVING COUNT(from_date) > 1
+ORDER BY emp_no LIMIT 10;
+##simply DROP DOWN can be used
+
+													###### INSERT ########
+INSERT INTO employees 
+(emp_no,
+birth_date,
+first_name,
+last_name,
+gender,
+hire_date)
+VALUES
+(999901,
+"2001-01-19",
+"Tanji",
+"Evan",
+"M",
+"2025-01-19");
+
+## Reason to use a bigger num as emp_no is to get advantage while testing, so that we can test it using DESC easily ##
+
+SELECT * FROM 	employees ORDER BY emp_no DESC LIMIT 10;
+
+INSERT INTO employees 
+VALUES
+(999902,
+"2001-01-19",
+"Tanji",
+"Islam",
+"M",
+"2025-01-19");
+
+##TASK##
+
+INSERT INTO employees 
+(emp_no,
+birth_date,
+first_name,
+last_name,
+gender,
+hire_date)
+VALUES
+(999903,
+"1977-09-14",
+"Johnathan",
+"Creek",
+"M",
+"1999-01-01");
+
+INSERT INTO titles
+(emp_no,
+title,
+from_date)
+VALUES
+(999903,
+"Senior Engineer",
+"1997-10-01");
+
+SELECT * from titles ORDER BY  emp_no DESC LIMIT 10;
+
+SELECT * FROM dept_emp LIMIT 10 ;
+INSERT INTO dept_emp
+(emp_no,
+dept_no,
+from_date,
+to_date)
+VALUES
+(999903,
+"d005",
+"1997-10-01",
+"9999-01-01");
+SELECT * FROM dept_emp ORDER BY emp_no DESC LIMIT 10 ;
+
+													## Creating New Table ##
+SELECT * FROM departments LIMIT 10;
+
+CREATE TABLE depatments_dup 
+(dept_no char(4) NOT NULL,
+dept_name varchar(40) NOT NULL
+);
+
+INSERT INTO depatments_dup
+( dept_no ,
+dept_name
+)
+SELECT 
+* 
+FROM 
+departments; ### will duplicate everything from department table to department_dup
+
+SELECT * FROM depatments_dup;
+
+##TASK##
+INSERT INTO departments 
+VALUES
+('d010',
+'Business Analysis'
+)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
