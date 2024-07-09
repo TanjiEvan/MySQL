@@ -244,12 +244,12 @@ SELECT * FROM dept_emp ORDER BY emp_no DESC LIMIT 10 ;
 													## Creating New Table ##
 SELECT * FROM departments LIMIT 10;
 
-CREATE TABLE depatments_dup 
+CREATE TABLE departments_dup 
 (dept_no char(4) NOT NULL,
 dept_name varchar(40) NOT NULL
 );
 
-INSERT INTO depatments_dup
+INSERT INTO departments_dup
 ( dept_no ,
 dept_name
 )
@@ -258,16 +258,60 @@ SELECT
 FROM 
 departments; ### will duplicate everything from department table to department_dup
 
-SELECT * FROM depatments_dup;
+SELECT * FROM departments_dup;
 
 ##TASK##
 INSERT INTO departments 
 VALUES
 ('d010',
 'Business Analysis'
-)
+);
 
-																				###### DELETE #######
+															###### UPDATE #######
+UPDATE employees 
+SET 
+    first_name = 'Stella',
+    last_name = 'Parkinson',
+    birth_date = '1009-12-31',
+    gender = 'F'
+WHERE
+    emp_no = 999901;
+    
+SELECT * from employees WHERE emp_no=999901;
+
+
+													### COMMIT - ROLL BACK ###
+  
+ SET AUTOCOMMIT= 0 ; ## Turns of AUTOCOMMIT
+    
+SELECT * from departments_dup; 
+COMMIT ; ###In SQL, COMMIT permanently saves all changes made in the current transaction to the database.
+
+UPDATE departments_dup
+SET
+dept_no="d011",
+dept_name="Quality Control";
+COMMIT ;
+
+UPDATE departments_dup
+SET
+dept_no="d011",
+dept_name="Quality ";
+
+SELECT * from departments_dup; 
+ROLLBACK;
+SELECT * from departments_dup; 
+
+### Task ##
+SELECT * FROM departments;
+ UPDATE departments
+ SET 
+ dept_name="Data Analysis"
+ WHERE dept_no="d010"
+
+
+
+
 
 
 
