@@ -246,7 +246,8 @@ SELECT * FROM departments LIMIT 10;
 
 CREATE TABLE departments_dup 
 (dept_no char(4) NOT NULL,
-dept_name varchar(40) NOT NULL
+dept_name varchar(40) NOT NULL,
+dept_manager varchar(40)
 );
 
 INSERT INTO departments_dup
@@ -261,11 +262,19 @@ departments; ### will duplicate everything from department table to department_d
 SELECT * FROM departments_dup;
 
 ##TASK##
-INSERT INTO departments 
+INSERT INTO departments_dup
+( dept_no ,
+dept_name
+)
 VALUES
-('d010',
-'Business Analysis'
+('d011',
+'Data Analysis'
 );
+INSERT INTO departments_dup 
+(dept_no 
+)
+VALUES
+('d011');
 
 															###### UPDATE #######
 UPDATE employees 
@@ -307,7 +316,87 @@ SELECT * FROM departments;
  UPDATE departments
  SET 
  dept_name="Data Analysis"
- WHERE dept_no="d010"
+ WHERE dept_no="d010";
+ 
+																	#### DELETE ####
+SELECT * FROM titles WHERE emp_no=999903;
+COMMIT;
+ 
+DELETE FROM employees 
+WHERE 
+ emp_no=999903;
+ 
+ROLLBACK;
+
+## TASK ##
+DELETE FROM departments
+WHERE 
+dept_no='d010';
+ 
+											#### AGGREGATE FUNCTIONS ####
+
+### COUNT ### 
+ SELECT COUNT(salary) FROM salaries;
+ SELECT COUNT(from_date) FROM salaries;
+ SELECT COUNT(DISTINCT from_date) FROM salaries; ##counts unique dates...
+ SELECT COUNT(*) FROM salaries; ## This will count NULL values too!
+ 
+## TASK ##
+SELECT COUNT(DISTINCT dept_no) FROM dept_emp;
+
+### SUM ###
+ SELECT SUM(salary) FROM salaries;
+## TASK ##
+SELECT SUM(salary) FROM salaries WHERE from_date > "1997-01-01" ;
+
+### MAX() & MIN() 
+SELECT MAX(salary) FROM salaries ;
+SELECT MIN(salary) FROM salaries ;
+## TASK ##
+SELECT MAX(emp_no) FROM employees ;
+SELECT MIN(emp_no) FROM employees ;
+
+### AVG () ###
+SELECT AVG(salary) FROM salaries;
+## TASK ##
+SELECT AVG(salary) FROM salaries WHERE from_date > '1997-01-01';
+
+### ROUND () ###
+SELECT ROUND(AVG(salary)) FROM salaries;
+SELECT ROUND(AVG(salary),2) FROM salaries;
+## TASK ##
+SELECT ROUND(AVG(salary),2) FROM salaries WHERE from_date > '1997-01-01';
+
+### IFNULL() & COALESCE()
+SELECT * FROM departments_dup ORDER BY dept_no;
+COMMIT;
+SELECT dept_no,IFNULL(dept_manager, "Manager not assigned") AS dept_manager FROM departments_dup;
+
+ALTER TABLE departments_dup
+ADD COLUMN trying INT;
+
+SELECT dept_no,dept_name,dept_manager,coalesce(dept_manager,trying, "N/A") AS dept_manager FROM departments_dup;
+SELECT dept_no,dept_name,coalesce(dept_manager,dept_name, "N/A") AS dept_manager FROM departments_dup;
+SELECT dept_no,dept_name,COALESCE("Dept manager name") AS fake_col FROM departments_dup;
+#ROLLBACK;
+## TASK ##
+
+
+
+
+
+
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
 
 
