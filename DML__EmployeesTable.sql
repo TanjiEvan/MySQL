@@ -453,6 +453,95 @@ VALUES ('Public Relations');
 DELETE FROM departments_dup
 WHERE dept_no = 'd002';
 
+																	#### INNER JOIN ####
+SELECT * FROM dept_manager_dup ORDER BY dept_no;
+SELECT * FROM departments_dup ORDER BY dept_no;
+
+SELECT 
+    m.dept_no, m.emp_no, d.dept_name
+FROM
+    dept_manager_dup m
+        INNER JOIN
+    departments_dup d ON m.dept_no = d.dept_no
+ORDER BY m.dept_no;
+
+## TASK ##
+SELECT 
+    e.emp_no, e.first_name, e.last_name, dm.dept_no, e.hire_date
+FROM
+    employees e
+        INNER JOIN
+    dept_manager dm ON e.emp_no = dm.emp_no;
+
+																### Duplicate Records ###
+INSERT INTO dept_manager_dup
+VALUES ('110228','d003','1992-03-21','9999-01-01');
+INSERT INTO departments_dup
+VALUES ('d009','Customer Service');
+ 
+ ## problem of duplicate record :-
+ SELECT 
+    m.dept_no, m.emp_no, d.dept_name
+FROM
+    dept_manager_dup m
+        INNER JOIN
+    departments_dup d ON m.dept_no = d.dept_no
+ORDER BY m.dept_no;    
+
+## Solution1 :-
+SELECT DISTINCT
+    m.dept_no, m.emp_no, d.dept_name
+FROM
+    dept_manager_dup m
+        INNER JOIN
+    departments_dup d ON m.dept_no = d.dept_no;   
+ ## Solution2 :-   
+    SELECT 
+    m.dept_no, m.emp_no, d.dept_name
+FROM
+    dept_manager_dup m
+        INNER JOIN
+    departments_dup d ON m.dept_no = d.dept_no
+GROUP BY 
+    m.dept_no, m.emp_no, d.dept_name
+ORDER BY 
+    d.dept_no;
+
+##group by doesnt work without agg func:-
+SELECT 
+    m.emp_no,
+    COUNT(m.dept_no) AS dept_count
+FROM
+    dept_manager_dup m
+        INNER JOIN
+    departments_dup d ON m.dept_no = d.dept_no
+GROUP BY m.emp_no
+ORDER BY m.emp_no;
+
+
+
+
+                                               
+                                                                
+                                                                
+                                                                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
