@@ -549,12 +549,44 @@ FROM
         LEFT JOIN
     dept_manager_dup m ON m.dept_no = d.dept_no
 ORDER BY d.dept_no;                                                                   
-                         
+ 
+ ##  view values of left side only / ven's left circle values
+ 
+  SELECT 
+    m.dept_no, m.emp_no, d.dept_name
+FROM
+    dept_manager_dup m
+        LEFT JOIN
+    departments_dup d ON m.dept_no = d.dept_no
+    WHERE dept_name IS NULL
+ORDER BY m.dept_no;  
+
+## TASK ##
+SELECT * FROM employees;
+SELECT * FROM dept_manager;																
                                                                     
-                                                                    
-                                                                    
-                                                                    
-                                                                    
+SELECT 
+    e.emp_no,
+    e.first_name,
+    e.last_name,
+    dm.dept_no,
+    dm.from_date
+FROM
+    employees e
+        LEFT JOIN
+    dept_manager dm ON e.emp_no = dm.emp_no
+WHERE
+    last_name = 'Markovitch'
+ORDER BY dm.dept_no DESC , e.emp_no;
+ 
+													#### RIGHT JOIN ####                                                                   
+  SELECT 
+    d.dept_no, m.emp_no, d.dept_name
+FROM
+    dept_manager_dup m
+        RIGHT JOIN
+    departments_dup d ON m.dept_no = d.dept_no
+ORDER BY dept_no;                                                                       
 
                                                
                                                                 
