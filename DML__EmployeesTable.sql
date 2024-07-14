@@ -910,16 +910,104 @@ SELECT ROUND(avg(salary),2)
 FROM salaries s
 JOIN  dept_manager m ON s.emp_no=m.emp_no;
 
-							
+										#### Intro To Sorted Routines ####							
+USE employees;
+         
+ # DROP PROCEDURE IF EXISTS select_employees;
+ 
+DELIMITER $$
+CREATE PROCEDURE select_employees()
+BEGIN
+SELECT * FROM employees
+LIMIT 1000;
+END$$											
+DELIMITER ;
+                                                
+CALL employees.select_employees();
+CALL select_employees(); 
+
+## TASK ##
+DELIMITER $$
+CREATE PROCEDURE emp_avg_salary()
+BEGIN
+SELECT ROUND(AVG(salary),2) FROM salaries;
+END$$
+DELIMITER ;
+CALL emp_avg_salary();
+
+## To DROP any procedure 
+DROP PROCEDURE select_employees;
+
+### Stored Procedures with an Input Parameter
+DELIMITER $$
+CREATE PROCEDURE emp_salary(IN p_emp_no INTEGER)
+BEGIN
+		SELECT
+        e.first_name,e.last_name,s.salary,s.from_date,s.to_date
+        FROM employees e
+        JOIN
+        salaries s ON e.emp_no=s.emp_no
+        WHERE
+        e.emp_no=p_emp_no;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE avg_salary(IN p_emp_no INTEGER)
+BEGIN
+		SELECT
+        e.first_name,e.last_name,AVG(s.salary)
+        FROM employees e
+        JOIN
+        salaries s ON e.emp_no=s.emp_no
+        GROUP BY e.emp_no
+        HAVING
+        e.emp_no=p_emp_no;
+END $$
+DELIMITER ;
+
+CALL employees.avg_salary(11300);
+
+### Stored Procedure With Output Parameter
+
+DELIMITER $$
+CREATE PROCEDURE emp__avg_salary_out(IN p_emp_no INTEGER, OUT p_avg_salary DECIMAL(10,2))
+BEGIN
+		SELECT
+        AVG(s.salary)
+        INTO p_avg_salary
+        FROM employees e
+        JOIN
+        salaries s ON e.emp_no=s.emp_no
+        GROUP BY e.emp_no
+        HAVING
+        e.emp_no=p_emp_no;
+END $$
+DELIMITER ;
+
+## TASK ##
+DELIMITER $$
+CREATE PROCEDURE emp_info(IN p_first_name VARCHAR(255),IN p_last_name VARCHAR(255), OUT p_emp_no INTEGER)
+BEGIN
+		SELECT
+        e.emp_no
+        INTO p_emp_no
+        FROM employees e
+        WHERE e.first_name=p_first_name AND e.last_name=p_last_name;
+END $$
+DELIMITER ;
+
+
+
+
+
+
+
+
                                                 
                                                 
                                                 
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
+                                                 
                                                 
 											
 
