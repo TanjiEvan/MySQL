@@ -639,6 +639,7 @@ ORDER BY e.emp_no;
 
 ##Technical Execution 
 SET @@global.sql_mode = REPLACE(@@global.sql_mode, 'ONLY_FULL_GROUP_BY', '');
+COMMIT;
 
 							#### SQL Subqueries With IN inside WHERE ####
 SELECT * FROM dept_manager;
@@ -878,7 +879,49 @@ emp_manager e2 ON e1.emp_no=e2.emp_no
 WHERE
 e2.emp_no IN ( SELECT manager_no FROM emp_manager);
 
+												#### SQL VIEWS ####
+SELECT * FROM dept_emp;                                             
+											
+SELECT emp_no ,from_date , to_date,
+COUNT(emp_no) AS num
+FROM dept_emp
+GROUP BY emp_no
+HAVING num > 1;			
 
+SELECT emp_no, MIN(from_date) AS from_date, MAX(to_date) AS to_date, COUNT(emp_no) AS num
+FROM dept_emp
+GROUP BY emp_no
+HAVING num > 1;
+
+CREATE OR REPLACE VIEW v_dept_emp_latest_date AS
+ SELECT 
+ emp_no,MAX(from_date) AS from_date , MAX(to_date) AS to_date
+ FROM dept_emp
+ GROUP BY emp_no;
+
+SELECT 
+ emp_no,MAX(from_date) AS from_date , MAX(to_date) AS to_date
+ FROM dept_emp
+ GROUP BY emp_no;
+
+## TASK ##
+CREATE OR REPLACE VIEW v_manager_avg_salary AS
+SELECT ROUND(avg(salary),2)
+FROM salaries s
+JOIN  dept_manager m ON s.emp_no=m.emp_no;
+
+							
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+											
 
 
 
