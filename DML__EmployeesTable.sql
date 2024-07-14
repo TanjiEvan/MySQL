@@ -762,6 +762,127 @@ manager_no INT(11) NOT NULL);
 
 SELECT * FROM emp_manager;
 
+## MAJOR TASK ##
+#Fill emp_manager with data about employees, the number of the department they are working in, and their managers.
+INSERT INTO emp_manager
+SELECT 
+    u.*
+FROM
+    (SELECT 
+        a.*
+    FROM
+        (SELECT 
+        e.emp_no AS employee_ID,
+            MIN(de.dept_no) AS department_code,
+            (SELECT 
+                    emp_no
+                FROM
+                    dept_manager
+                WHERE
+                    emp_no = 110022) AS manager_ID
+    FROM
+        employees e
+    JOIN dept_emp de ON e.emp_no = de.emp_no
+    WHERE
+        e.emp_no <= 10020
+    GROUP BY e.emp_no
+    ORDER BY e.emp_no) AS a UNION SELECT 
+        b.*
+    FROM
+        (SELECT 
+        e.emp_no AS employee_ID,
+            MIN(de.dept_no) AS department_code,
+            (SELECT 
+                    emp_no
+                FROM
+                    dept_manager
+                WHERE
+                    emp_no = 110039) AS manager_ID
+    FROM
+        employees e
+    JOIN dept_emp de ON e.emp_no = de.emp_no
+    WHERE
+        e.emp_no > 10020
+    GROUP BY e.emp_no
+    ORDER BY e.emp_no
+    LIMIT 20) AS b UNION SELECT 
+        c.*
+    FROM
+        (SELECT 
+        e.emp_no AS employee_ID,
+            MIN(de.dept_no) AS department_code,
+            (SELECT 
+                    emp_no
+                FROM
+                    dept_manager
+                WHERE
+                    emp_no = 110039) AS manager_ID
+    FROM
+        employees e
+    JOIN dept_emp de ON e.emp_no = de.emp_no
+    WHERE
+        e.emp_no = 110022
+    GROUP BY e.emp_no) AS c UNION SELECT 
+        d.*
+    FROM
+        (SELECT 
+        e.emp_no AS employee_ID,
+            MIN(de.dept_no) AS department_code,
+            (SELECT 
+                    emp_no
+                FROM
+                    dept_manager
+                WHERE
+                    emp_no = 110022) AS manager_ID
+    FROM
+        employees e
+    JOIN dept_emp de ON e.emp_no = de.emp_no
+    WHERE
+        e.emp_no = 110039
+    GROUP BY e.emp_no) AS d) as u;
+
+												#### SELF JOIN ####
+##From the emp_manager table,extract the record data only of those employees who are 
+#manager as well
+
+SELECT * FROM emp_manager ORDER BY emp_no;
+
+SELECT e1.* FROM emp_manager e1 ORDER BY emp_no;
+SELECT e2.* FROM emp_manager e2 ORDER BY emp_no;
+
+SELECT e1.* FROM emp_manager e1 
+JOIN
+emp_manager e2 ON e1.emp_no = e2.manager_no ORDER BY emp_no;
+
+SELECT e2.* FROM emp_manager e1 
+JOIN
+emp_manager e2 ON e1.emp_no = e2.manager_no ORDER BY emp_no;
+
+SELECT e1.emp_no,e1.dept_no,e2.manager_no
+FROM emp_manager e1 
+JOIN
+emp_manager e2 ON e1.emp_no = e2.manager_no ORDER BY emp_no;
+## Task Answer ##
+SELECT DISTINCT
+e1.*
+FROM emp_manager e1 
+JOIN
+emp_manager e2 ON e1.emp_no = e2.manager_no ORDER BY emp_no;
+## WHERE APPROACH ##
+SELECT
+e1.*
+FROM
+emp_manager e1
+JOIN
+emp_manager e2 ON e1.emp_no=e2.emp_no
+WHERE
+e2.emp_no IN ( SELECT manager_no FROM emp_manager);
+
+
+
+
+
+
 
 
 
