@@ -1096,6 +1096,125 @@ CREATE INDEX i_composite ON employees(first_name,last_name);
 
 SHOW INDEX FROM employees FROM employees;
 
+## TASK ##
+ALTER TABLE employees DROP INDEX i_hire_date;
+
+SELECT * FROM salaries WHERE salary >89000;
+CREATE INDEX i_salary ON salaries(salary);
+
+													##### THE CASE STATEMENT ####
+SELECT * FROM employees;
+
+SELECT 
+    emp_no,
+    first_name,
+    last_name,
+    CASE
+        WHEN gender = 'M' THEN 'MALE'
+        ELSE 'FEMALE'
+    END AS gender
+FROM
+    employees;
+    
+    
+ SELECT 
+    emp_no,
+    first_name,
+    last_name,
+    CASE gender
+        WHEN gender = 'M' THEN 'MALE'
+        ELSE 'FEMALE'
+    END AS gender
+FROM
+    employees;   
+
+
+SELECT 
+e.emp_no,e.first_name,e.last_name,
+CASE
+WHEN dm.emp_no IS NOT NULL THEN 'Manager'
+ELSE 'Employee'
+END AS is_manager
+FROM employees e
+LEFT JOIN
+dept_manager dm ON dm.emp_no = e.emp_no
+WHERE e.emp_no > 109990;
+
+#################################################
+SELECT 
+e.emp_no,e.first_name,e.last_name,
+CASE
+WHEN  NOT NULL THEN 'Manager'
+ELSE 'Employee'
+END AS is_manager
+FROM employees e
+LEFT JOIN
+dept_manager dm ON dm.emp_no = e.emp_no
+WHERE e.emp_no > 109990;
+##########################################
+#THE ABOVE APPROACH IS WRONG , IS NULL nd IS NOT NULL are not values that something can be compare to
+
+SELECT
+emp_no,first_name,last_name,
+IF(gender ="M","Male","Female") AS gender
+FROM employees;
+
+## TASK 1 ##
+SELECT 
+e.emp_no,e.first_name,e.last_name,
+CASE
+WHEN dm.emp_no IS NOT NULL THEN "Manager"
+ELSE "Employee"
+END AS is_manager
+FROM employees e
+LEFT JOIN
+dept_manager dm ON e.emp_no=dm.emp_no
+WHERE e.emp_no > 109990;
+## TASK 2 ##
+SELECT
+dm.emp_no,e.first_name,e.last_name,
+MAX(s.salary)-MIN(s.salary) AS salary_difference,
+CASE
+WHEN MAX(s.salary)-MIN(s.salary) > 30000 THEN "SALARY WAS MORE THAN 30,000"
+ELSE "SALARY WAS NOT MORE THAN 30,000"
+END AS salary_rise
+FROM dept_manager dm
+JOIN
+employees e ON e.emp_no=dm.emp_no
+JOIN
+salaries s ON s.emp_no = dm.emp_no
+GROUP BY s.emp_no;
+
+## WITH IF -->
+SELECT dm.emp_no,e.first_name,e.last_name,
+MAX(s.salary)-MIN(s.salary) AS salary_difference,
+IF(MAX(s.salary)-MIN(s.salary) > 30000 , "SALARY WAS MORE THAN 30,000" , "SALARY WAS NOT MORE THAN 30,000") AS salary_increase
+FROM
+dept_manager dm
+JOIN
+employees e ON e.emp_no = dm.emp_no
+JOIN
+salaries s ON s.emp_no = dm.emp_no 
+GROUP BY s.emp_no;
+## TASK 3 ##
+SELECT e.emp_no,e.first_name,e.last_name,
+CASE
+WHEN MAX(de.to_date)>SYSDATE() THEN "IS STILL EMPLOYEED"
+ELSE "NOT EMPLOYEED ANYMORE"
+END AS current_employee
+FROM employees e
+JOIN
+dept_emp de ON e.emp_no=de.emp_no
+GROUP BY de.emp_no
+LIMIT 100;
+
+
+
+
+
+
+
+
 
 
 
