@@ -1067,12 +1067,18 @@ DELIMITER ;
 
 SELECT emp_info("Aruna","Journel");
 
+																#### Types Of Variable ####
+## LOCAL Variable -> DECLARE ###
+##SESSION Variable -> SET ###
+SET @s_var1=3;
+SELECT @s_var1;
+## Global Variable -> SET GLOBAL ##
+SET GLOBAL max_connections= 1000; ## 1000 uses given connection
+SET @@global.max_connections=1; ## at a time only one connection permited 
 
-
-
-
-
-                                                
+## SQL Mode ##
+SET SESSION sql_mode="STRICT_TRANS_TABLES,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION" ;
+SET GLOBAL sql_mode="STRICT_TRANS_TABLES,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION" ;                                              
                                                 
                                                 
                                                  
