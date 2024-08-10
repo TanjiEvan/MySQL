@@ -35,6 +35,31 @@ SELECT *,AVG(marks) OVER() FROM marks;
 
 SELECT *,AVG(marks) OVER(partition by branch) FROM marks;
 
+SELECT *,MIN(marks) OVER(), MAX(marks) OVER() FROM marks;
+
+SELECT *, 
+AVG(marks) OVER() AS Total_AVG,
+AVG(marks) OVER(PARTITION BY branch) AS Branch_AVG,
+MIN(marks) OVER() AS Overall_Min_Mark,
+MAX(marks) OVER() AS Overall_Max_Mark,
+MIN(marks) OVER(PARTITION BY branch) AS Branch_Min_Mark,
+MAX(marks) OVER(PARTITION BY branch) AS Branch_Max_Mark
+FROM marks;
+
+### Que. Find all the students who have marks higher than the avg marks of their respective branch 
+
+SELECT * FROM(SELECT * ,
+AVG(marks) OVER(PARTITION BY branch) AS Branch_Avg 
+FROM marks)t
+WHERE marks > Branch_Avg ;
+
+
+
+
+
+
+
+
 
 
 
